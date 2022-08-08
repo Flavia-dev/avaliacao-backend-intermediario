@@ -14,32 +14,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vrtech.miniautorizador.controller.form.TransacaoForm;
 import br.com.vrtech.miniautorizador.model.Respostas;
-import br.com.vrtech.miniautorizador.model.Transacao;
+import br.com.vrtech.miniautorizador.repository.TransacaoRepository;
 import br.com.vrtech.miniautorizador.service.TransacaoService;
 
 @RestController
 @RequestMapping("transacoes")
 public class TransacaoController {
-	
+
 	@Autowired
-    private TransacaoService transacaoService;
+	private TransacaoService transacaoService;
+
+	@Autowired
+	private TransacaoRepository transacaoRepository;
+	
 
 	@PostMapping
-    @Transactional
-    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
-    public ResponseEntity<String> executaTransacao(@RequestBody @Valid TransacaoForm transacaoForm) {
-		Transacao transacao = transacaoForm.convert();
-				String resposta = transacaoService.verificaCartao(transacao);
-//		try {
-//				return ResponseEntity.status(HttpStatus.CREATED).body(resposta);
-//						
-//		} catch (RuntimeException e) {
-//				return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
-//		}
-		
+	@Transactional
+	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+	public ResponseEntity<String> executaTransacao(@RequestBody @Valid TransacaoForm transacaoForm) {
+		String resposta = transacaoService.verificaCartao(transacaoForm.convert());
 		if (!(resposta == Respostas.OK.name())) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resposta);
+		} else {
+			transacaoRepository.save(transacaoForm.convert());
+			return ResponseEntity.status(HttpStatus.CREATED).body(resposta);
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(resposta);
-    }
+
+	}
+
 }

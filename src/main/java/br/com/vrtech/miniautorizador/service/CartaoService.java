@@ -33,7 +33,7 @@ public class CartaoService {
 	}
 
 	public Optional<Cartao> findByNumero(String numeroCartao) {
-		 return cartaoRepository.findById(numeroCartao);
+		return cartaoRepository.findById(numeroCartao);
 	}
 
 }

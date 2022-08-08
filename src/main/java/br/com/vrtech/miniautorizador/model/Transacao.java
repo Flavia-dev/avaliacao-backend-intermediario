@@ -22,29 +22,17 @@ public class Transacao {
 	private BigDecimal valor;
 	private LocalDateTime data_hora = LocalDateTime.now();
 	
-	@ManyToOne(targetEntity = Cartao.class)
+	@ManyToOne
     @JoinColumn(name = "numero_cartao")
     private Cartao cartao;
-	
-	public Transacao() {
 		
-	}
 
-	public Transacao(Long id, BigDecimal valor) {
-		this.id = id;
+	public Transacao(BigDecimal valor,  Cartao cartao) {
 		this.valor = valor;
-	}
-
-	public Transacao(BigDecimal valor, LocalDateTime data_hora, Cartao cartao) {
-		this.valor = valor;
-		this.data_hora = data_hora;
 		this.cartao = cartao;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
+	
 	public BigDecimal getValor() {
 		return valor;
 	}
@@ -73,9 +61,8 @@ public class Transacao {
 		Transacao other = (Transacao) obj;
 		return Objects.equals(cartao, other.cartao) && Objects.equals(id, other.id);
 	}
-	
-	
-	
+
+		
 
 }
 

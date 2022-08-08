@@ -47,13 +47,6 @@ public class CartaoController {
 
 	}
 
-//	@GetMapping("/{numeroCartao}")
-//	public CartaoSaldoDto verificarSaldo(@PathVariable String numeroCartao) {
-//		
-//		Cartao cartao = cartaorepository.getReferenceById(numeroCartao);
-//		return new CartaoSaldoDto(cartao);
-//	}
-
 	@GetMapping("/{numeroCartao}")
 	public ResponseEntity<BigDecimal> verificarSaldo(@PathVariable String numeroCartao) {
 		try {
@@ -63,15 +56,6 @@ public class CartaoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 	}
-
-//	@PostMapping
-//	public ResponseEntity<CartaoDto> criarCartao(@RequestBody @Valid CartaoForm cartaoForm, UriComponentsBuilder uriBuilder) {
-//		Cartao cartao = cartaoForm.converter(cartaorepository);
-//		cartaorepository.save(cartao);
-//		
-//		URI uri = uriBuilder.path("/cartoes/{numeroCartao}").buildAndExpand(cartao.getNumero()).toUri();
-//		return ResponseEntity.created(uri).body(new CartaoDto(cartao));
-//	}
 
 	@PostMapping
 	@Transactional
